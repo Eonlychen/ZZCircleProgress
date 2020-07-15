@@ -1,5 +1,5 @@
 # ZZCircleProgress
-
+###### 添加圆环效果，背景环和进度环宽度根据需求改变！！！！
 <p>
 <img src="ZZCircleProgress_logo.png" title="ZZCircleProgress_logo" float=left>
 </p>
