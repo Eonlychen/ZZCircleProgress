@@ -7,7 +7,7 @@ Pod::Spec.new do |s|
   s.license      = "MIT"
   s.author       = { "zhouxing5311" => "1098660224@qq.com" }
   s.platform     = :ios, "7.0"  
-  s.source       = { :git => "https://github.com/zhouxing5311/ZZCircleProgress.git", :tag => s.version.to_s}
+  s.source       = { :git => "https://github.com/Eonlychen/ZZCircleProgress.git", :tag => s.version.to_s}
   s.source_files = "ZZCircleProgressDemo/ZZCircleProgress/**/*.{h,m}"
   s.resources    = 'ZZCircleProgressDemo/ZZCircleProgress/ZZCircleProgress.bundle'
   s.requires_arc = true
