@@ -72,6 +72,8 @@
     _showPoint = YES;//小圆点
     _showProgressText = YES;//文字
     
+    _zzborderWidth = 0;
+    _progressStrokeWidth = _strokeWidth;
     //初始化layer
     [self initSubviews];
 }
@@ -92,7 +94,7 @@
     if (!_progressLayer) {
         _progressLayer = [CAShapeLayer layer];
         _progressLayer.fillColor = [UIColor clearColor].CGColor;//填充色
-        _progressLayer.lineWidth = _strokeWidth;
+        _progressLayer.lineWidth = _progressStrokeWidth;
         _progressLayer.strokeColor = _pathFillColor.CGColor;
         _progressLayer.lineCap = @"round";
     }
@@ -115,7 +117,7 @@
         _progressLabel = [[ZZCountingLabel alloc] init];
         _progressLabel.textColor = [UIColor blackColor];
         _progressLabel.textAlignment = NSTextAlignmentCenter;
-        _progressLabel.font = [UIFont systemFontOfSize:22];
+        _progressLabel.font = [UIFont systemFontOfSize:26];
         _progressLabel.text = @"0%";
     }
     return _progressLabel;
@@ -146,7 +148,7 @@
     if (_progress<_lastProgress && _increaseFromLast == YES) {
         clockwise = YES;
     }
-    UIBezierPath *imagePath = [UIBezierPath bezierPathWithArcCenter:CGPointMake(_realWidth/2.0, _realWidth/2.0) radius:_radius startAngle:_increaseFromLast==YES?(2*M_PI-_reduceAngle)*_lastProgress+_startAngle:_startAngle endAngle:(2*M_PI-_reduceAngle)*_progress+_startAngle clockwise:!clockwise];
+    UIBezierPath *imagePath = [UIBezierPath bezierPathWithArcCenter:CGPointMake(_realWidth/2.0+_zzborderWidth/2, _realWidth/2.0+_zzborderWidth/2) radius:_radius startAngle:_increaseFromLast==YES?(2*M_PI-_reduceAngle)*_lastProgress+_startAngle:_startAngle endAngle:(2*M_PI-_reduceAngle)*_progress+_startAngle clockwise:!clockwise];
     pointAnimation.path = imagePath.CGPath;
     
     return pointAnimation;
@@ -174,6 +176,13 @@
     if (_strokeWidth != strokeWidth) {
         _strokeWidth = strokeWidth;
         _radius = _realWidth/2.0 - _strokeWidth/2.0;
+        [self setNeedsLayout];
+    }
+}
+- (void)setProgressStrokeWidth:(CGFloat)progressStrokeWidth {
+    if (_progressStrokeWidth != progressStrokeWidth) {
+        _progressStrokeWidth = progressStrokeWidth;
+        _radius = _realWidth/2.0 - _progressStrokeWidth/2;
         [self setNeedsLayout];
     }
 }
@@ -260,7 +269,7 @@
 - (void)updatePointPosition {
     CGFloat currentEndAngle = (2*M_PI-_reduceAngle)*_progress+_startAngle;
     [_pointImage.layer removeAllAnimations];
-    _pointImage.center = CGPointMake(_realWidth/2.0+_radius*cosf(currentEndAngle), _realWidth/2.0+_radius*sinf(currentEndAngle));
+    _pointImage.center = CGPointMake(_realWidth/2.0+_zzborderWidth/2+_radius*cosf(currentEndAngle), _realWidth/2.0+_zzborderWidth/2+_radius*sinf(currentEndAngle));
 }
 
 #pragma initSubviews
@@ -276,19 +285,23 @@
 - (void)layoutSubviews {
     [super layoutSubviews];
     
-    self.realWidth = MIN(ZZCircleSelfWidth, ZZCircleSelfHeight);
-    self.radius = _realWidth/2.0 - _strokeWidth/2.0;
+    CGFloat borderW = _zzborderWidth/2;
     
-    self.backLayer.frame = CGRectMake(0, 0, _realWidth, _realWidth);
+    self.realWidth = MIN(ZZCircleSelfWidth, ZZCircleSelfHeight) - _zzborderWidth;
+    self.radius = _realWidth/2.0 - _strokeWidth/2.0;
+    NSLog(@"%f",_realWidth/2.0);
+    NSLog(@"%f",self.strokeWidth);
+    NSLog(@"%f",self.radius);
+    self.backLayer.frame = CGRectMake(borderW, borderW, _realWidth, _realWidth);
     self.backLayer.lineWidth = _strokeWidth;
     self.backLayer.path = [self getNewBezierPath].CGPath;
 
-    self.progressLayer.frame = CGRectMake(0, 0, _realWidth, _realWidth);
-    self.progressLayer.lineWidth = _strokeWidth;
+    self.progressLayer.frame = CGRectMake(borderW, borderW, _realWidth, _realWidth);
+    self.progressLayer.lineWidth = _progressStrokeWidth;
     self.progressLayer.path = [self getNewBezierPath].CGPath;
     self.progressLayer.strokeEnd = 0.0;
 
-    self.progressLabel.frame = CGRectMake(0, 0, _realWidth, _realWidth);
+    self.progressLabel.frame = CGRectMake(borderW, borderW, _realWidth, _realWidth);
     
     self.pointImage.frame = CGRectMake(0, 0, _strokeWidth, _strokeWidth);
     [self updatePointPosition];

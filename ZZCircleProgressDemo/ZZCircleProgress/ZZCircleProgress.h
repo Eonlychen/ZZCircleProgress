@@ -16,6 +16,11 @@
 
 @interface ZZCircleProgress : UIView
 
+// 环对外的宽度
+@property(nonatomic) CGFloat zzborderWidth;
+// 进度的宽度
+@property(nonatomic) CGFloat progressStrokeWidth;
+
 //图形定制
 @property (nonatomic, strong) UIColor *pathBackColor;/**<线条背景色*/
 @property (nonatomic, strong) UIColor *pathFillColor;/**<线条填充色*/

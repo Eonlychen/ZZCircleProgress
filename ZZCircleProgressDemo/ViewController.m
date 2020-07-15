@@ -28,15 +28,22 @@
     [super viewDidLoad];
     
     //1.添加进度条frame
-//    [self addProgressViewByFrame];
+    [self addProgressViewByFrame];
     
     //2.添加进度条autolayout
-    [self addProgressViewByAutoLayout];
+//    [self addProgressViewByAutoLayout];
 }
 
 //frame
 - (void)addProgressViewByFrame {
-    self.progressView = [[ZZCircleProgress alloc] initWithFrame:CGRectMake((CGRectGetWidth(self.view.frame)-240)/2.0, 42, 240, 240) pathBackColor:[UIColor lightGrayColor] pathFillColor:[UIColor redColor] startAngle:0 strokeWidth:10];
+    self.progressView = [[ZZCircleProgress alloc] initWithFrame:CGRectMake(100, 42, 57, 57) pathBackColor:[UIColor lightGrayColor] pathFillColor:[UIColor redColor] startAngle:0 strokeWidth:10];
+    self.progressView.backgroundColor = UIColor.redColor;
+    self.progressView.layer.masksToBounds = true;
+    self.progressView.layer.cornerRadius = 57/2;
+    self.progressView.zzborderWidth = 6.5;
+    self.progressView.strokeWidth = 3;
+    self.progressView.progressStrokeWidth = 6;
+    self.progressView.showPoint = false;
     [self.view addSubview:self.progressView];
 }
 
