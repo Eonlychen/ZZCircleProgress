@@ -118,7 +118,7 @@
         _progressLabel.textColor = [UIColor blackColor];
         _progressLabel.textAlignment = NSTextAlignmentCenter;
         _progressLabel.font = [UIFont systemFontOfSize:26];
-        _progressLabel.text = @"0%";
+        _progressLabel.text = @"0";
     }
     return _progressLabel;
 }
