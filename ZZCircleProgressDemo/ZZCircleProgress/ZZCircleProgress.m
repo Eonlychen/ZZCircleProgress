@@ -289,9 +289,6 @@
     
     self.realWidth = MIN(ZZCircleSelfWidth, ZZCircleSelfHeight) - _zzborderWidth;
     self.radius = _realWidth/2.0 - _strokeWidth/2.0;
-    NSLog(@"%f",_realWidth/2.0);
-    NSLog(@"%f",self.strokeWidth);
-    NSLog(@"%f",self.radius);
     self.backLayer.frame = CGRectMake(borderW, borderW, _realWidth, _realWidth);
     self.backLayer.lineWidth = _strokeWidth;
     self.backLayer.path = [self getNewBezierPath].CGPath;
