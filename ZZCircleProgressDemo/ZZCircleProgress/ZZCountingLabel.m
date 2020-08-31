@@ -92,7 +92,11 @@
     }
     
     dispatch_async(dispatch_get_main_queue(), ^{
-        self.text = [NSString stringWithFormat:@"%.0f",_increaseValue];
+        if (_increaseValue <= 0) {
+            self.text = @"暂无";
+        }else {
+            self.text = [NSString stringWithFormat:@"%.0f%%",_increaseValue];
+        }
     });
 }
 
